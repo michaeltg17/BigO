@@ -1,31 +1,4 @@
-﻿void Show(string title, Func<int, long> bigO, int[] sizes)
-{
-    Console.WriteLine();
-    Console.WriteLine();
-    Console.WriteLine(title);
-    Console.WriteLine();
-    Console.WriteLine($"  {"n",8}  {"work",10}  {"n-growth",10}  {"work-growth",14}");
-    long? baseWork = null;
-    int baseN = 0;
-    foreach (int n in sizes)
-    {
-        long work = bigO(n);
-        if (baseWork is long b)
-        {
-            string nGrowth = "x" + ((double)n / baseN).ToString("0.##");
-            string workGrowth = "x" + ((double)work / b).ToString("0.##");
-            Console.WriteLine($"  {n,8}  {work,10}  {nGrowth,10}  {workGrowth,14}");
-        }
-        else
-        {
-            Console.WriteLine($"  {n,8}  {work,10}");
-            baseWork = work;
-            baseN = n;
-        }
-    }
-}
-
-Console.WriteLine("BIG O: how fast does the work grow when n gets bigger?");
+﻿Console.WriteLine("BIG O: how fast does the work grow when n gets bigger?");
 
 // ============================================================
 // 1. O(1) CONSTANT — get the mid number
@@ -162,3 +135,30 @@ long OFactorial(int n)
     return work;
 }
 Show("O(n!) FACTORIAL — every possible order of items", OFactorial, [1, 2, 3, 5, 10]);
+
+void Show(string title, Func<int, long> bigO, int[] sizes)
+{
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine(title);
+    Console.WriteLine();
+    Console.WriteLine($"  {"n",8}  {"work",10}  {"n-growth",10}  {"work-growth",14}");
+    long? baseWork = null;
+    int baseN = 0;
+    foreach (int n in sizes)
+    {
+        long work = bigO(n);
+        if (baseWork is long b)
+        {
+            string nGrowth = "x" + ((double)n / baseN).ToString("0.##");
+            string workGrowth = "x" + ((double)work / b).ToString("0.##");
+            Console.WriteLine($"  {n,8}  {work,10}  {nGrowth,10}  {workGrowth,14}");
+        }
+        else
+        {
+            Console.WriteLine($"  {n,8}  {work,10}");
+            baseWork = work;
+            baseN = n;
+        }
+    }
+}
