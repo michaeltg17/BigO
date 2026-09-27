@@ -35,9 +35,7 @@ Console.WriteLine("(n = number of kids in a line, steps = work the computer does
 // ============================================================
 long O1(int n)
 {
-    var lockers = new int[n];
-    lockers[n / 2] = 1;
-    return 1;
+    return n / 2;
 }
 Show("O(1) CONSTANT — get the mid number", O1, [10, 100, 1000, 10000]);
 
@@ -83,8 +81,6 @@ Show("O(log n) LOGARITHMIC — BINARY SEARCH", OLogN, [10, 100, 1000, 10000]);
 
 // ============================================================
 // 3. O(n) LINEAR — classic foreach
-//
-// 
 // ============================================================
 long OLinear(int n)
 {
@@ -96,16 +92,13 @@ long OLinear(int n)
 Show("O(n) LINEAR — classic foreach", OLinear, [10, 100, 1000, 10000]);
 
 // ============================================================
-// 4. O(n log n) LINEARITHMIC — classic foreach + binary search
-//
-// The normal loop + inside binary search
-// So the work is n x log n. This is how fast the best sorting algorithms go.
+// 4. O(n log n) LINEARITHMIC — classic foreach + halving counter
 // ============================================================
 long ONLogN(int n)
 {
     long work = 0;
-    for (int i = 0; i < n; i++)          
-        for (int j = n; j > 1; j /= 2)
+    for (int i = 0; i < n; i++)
+        for (int j = n; j > 1; j /= 2) // halving counter so log n
             work++;
     return work;
 }
@@ -125,16 +118,11 @@ long OQuadratic(int n)
 Show("O(n^2) QUADRATIC — every item with every item", OQuadratic, [10, 100, 1000, 5000]);
 
 // ============================================================
-// 7. O(2^n) EXPONENTIAL — coin flipping
+// 6. O(2^n) EXPONENTIAL — coin flipping
 //
 // n is the quantity of coins
 // Each coin is a bit: 0 = heads, 1 = tails. The numbers from
 // 0 up to 2^n - 1 ARE the combos, one combo per number.
-// To read coin i out of a combo:  (mask >> i) & 1
-//   Example, n = 3, mask = 5 (binary 101):
-//     coin1: (5 >> 0) & 1 = 1  tails
-//     coin2: (5 >> 1) & 1 = 0  heads
-//     coin3: (5 >> 2) & 1 = 1  tails
 // We count every combo: 2^n of them.
 // ============================================================
 long OExponential(int n)
@@ -149,7 +137,7 @@ long OExponential(int n)
 Show("O(2^n) EXPONENTIAL — coin flipping", OExponential, [1, 2, 3, 5, 10]);
 
 // ============================================================
-// 8. O(n!) FACTORIAL — every possible order of items
+// 7. O(n!) FACTORIAL — every possible order of items
 //
 // In how many orders can n items be placed?
 // 1st spot: n options. 2nd spot: n-1 options left. 3rd: n-2 ...
