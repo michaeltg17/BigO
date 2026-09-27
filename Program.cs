@@ -1,7 +1,9 @@
 ﻿void Show(string title, Func<int, long> bigO, int[] sizes)
 {
     Console.WriteLine();
+    Console.WriteLine();
     Console.WriteLine(title);
+    Console.WriteLine();
     Console.WriteLine($"  {"n",8}  {"work",10}  {"n-growth",10}  {"work-growth",14}");
     long? baseWork = null;
     int baseN = 0;
@@ -144,7 +146,7 @@ long OExponential(int n)
     }
     return work;
 }
-Show("O(2^n) EXPONENTIAL — coin flipping", OExponential, [1, 2, 3, 10, 15, 20]);
+Show("O(2^n) EXPONENTIAL — coin flipping", OExponential, [1, 2, 3, 5, 10]);
 
 // ============================================================
 // 8. O(n!) FACTORIAL — "every possible lineup"
@@ -172,4 +174,4 @@ long OFactorial(int n)
     Try(0);
     return steps;
 }
-Show("O(n!) factorial — every possible lineup of kids", OFactorial, new[] { 1, 3, 5, 7, 8 });
+Show("O(n!) factorial — every possible lineup of kids", OFactorial, [1, 2, 3, 5, 10]);
