@@ -149,22 +149,22 @@ long OExponential(int n)
 Show("O(2^n) EXPONENTIAL — coin flipping", OExponential, [1, 2, 3, 5, 10]);
 
 // ============================================================
-// 8. O(n!) FACTORIAL — "every possible lineup"
+// 8. O(n!) FACTORIAL — every possible order of items
 //
-// In how many orders can n kids stand in a line?
+// In how many orders can n items be placed?
 // 1st spot: n options. 2nd spot: n-1 options left. 3rd: n-2 ...
 // Total = n * (n-1) * (n-2) * ... * 1  which is written "n!" (n factorial).
 // Even a tiny n is way, way bigger than 2^n. This is why we never do this for big n.
 // ============================================================
 long OFactorial(int n)
 {
-    long steps = 0;
+    long work = 0;
     var used = new bool[n];
     void Try(int spot)
     {
-        if (spot == n) { steps++; return; }  // line is full = one lineup found
+        if (spot == n) { work++; return; } // no spots, one order found
         for (int i = 0; i < n; i++)
-            if (!used[i])                    // kid i isn't in the line yet
+            if (!used[i]) // item i not placed yet
             {
                 used[i] = true;
                 Try(spot + 1);
@@ -172,6 +172,6 @@ long OFactorial(int n)
             }
     }
     Try(0);
-    return steps;
+    return work;
 }
-Show("O(n!) factorial — every possible lineup of kids", OFactorial, [1, 2, 3, 5, 10]);
+Show("O(n!) FACTORIAL — every possible order of items", OFactorial, [1, 2, 3, 5, 10]);
