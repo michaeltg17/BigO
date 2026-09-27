@@ -111,36 +111,16 @@ Show("O(n log n) linearithmic — classic foreach + binary search", ONLogN, [10,
 
 // ============================================================
 // 5. O(n^2) QUADRATIC — every item with every item
-//
-// The simple for-loop, with ANOTHER simple for-loop inside it.
-// Kid 1 shakes hands with n kids, kid 2 with n kids, ... n times n = n^2.
 // ============================================================
 long OQuadratic(int n)
 {
-    long steps = 0;
-    for (int i = 0; i < n; i++)       // every kid...
-        for (int j = 0; j < n; j++)   // ...shakes hands with every kid
-            steps++;
-    return steps;
+    long work = 0;
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            work++;
+    return work;
 }
 Show("O(n^2) QUADRATIC — every item with every item", OQuadratic, [10, 100, 1000, 5000]);
-
-// ============================================================
-// 6. O(n^3) CUBIC — "every handshake gets n high-fives"
-//
-// Same idea, one more for-loop inside.
-// n kids x n kids x n high-fives = n^3
-// ============================================================
-long OCubic(int n)
-{
-    long steps = 0;
-    for (int i = 0; i < n; i++)       // every kid...
-        for (int j = 0; j < n; j++)   // ...with every kid...
-            for (int k = 0; k < n; k++)  // ...does n high-fives
-                steps++;
-    return steps;
-}
-Show("O(n^3) cubic — three for-loops stacked", OCubic, new[] { 10, 100, 500 });
 
 // ============================================================
 // 7. O(2^n) EXPONENTIAL — "every possible photo"
@@ -152,17 +132,17 @@ Show("O(n^3) cubic — three for-loops stacked", OCubic, new[] { 10, 100, 500 })
 // ============================================================
 long OExponential(int n)
 {
-    long steps = 0;
+    long work = 0;
     void Try(int kid)
     {
-        if (kid == n) { steps++; return; }  // all kids decided = one photo taken
+        if (kid == n) { work++; return; }  // all kids decided = one photo taken
         Try(kid + 1);   // kid is OUT of the photo
         Try(kid + 1);   // kid is IN the photo
     }
     Try(0);
-    return steps;
+    return work;
 }
-Show("O(2^n) exponential — every possible photo (2 choices per kid)", OExponential, new[] { 1, 5, 10, 15, 20 });
+Show("O(2^n) exponential — every possible photo (2 choices per kid)", OExponential, [1, 5, 10, 15, 20]);
 
 // ============================================================
 // 8. O(n!) FACTORIAL — "every possible lineup"
