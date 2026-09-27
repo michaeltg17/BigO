@@ -1,5 +1,6 @@
 ﻿Console.WriteLine("BIG O: how fast does the work grow when n gets bigger?");
 
+var title1 = "O(1) CONSTANT — get the mid number";
 // ============================================================
 // 1. O(1) CONSTANT — get the mid number
 //
@@ -10,8 +11,9 @@ long O1(int n)
     var mid = n / 2;
     return 1;
 }
-Show("O(1) CONSTANT — get the mid number", O1, [10, 100, 1000, 10000]);
+Show(title1, O1, [10, 100, 1000, 10000]);
 
+var title2 = "O(log log n) DOUBLE LOGARITHMIC — how many logs fit in n";
 // ============================================================
 // 2. O(log log n) DOUBLE LOGARITHMIC — how many logs fit in n
 //
@@ -35,8 +37,9 @@ long OLogLogN(int n)
     }
     return work;
 }
-Show("O(log log n) DOUBLE LOGARITHMIC — how many logs fit in n", OLogLogN, [2, 16, 256, 100000, 10000000]);
+Show(title2, OLogLogN, [2, 16, 256, 100000, 10000000]);
 
+var title3 = "O(log n) LOGARITHMIC — BINARY SEARCH";
 // ============================================================
 // 3. O(log n) LOGARITHMIC — BINARY SEARCH
 //
@@ -75,8 +78,9 @@ long OLogN(int n)
     }
     return work;
 }
-Show("O(log n) LOGARITHMIC — BINARY SEARCH", OLogN, [10, 100, 1000, 10000]);
+Show(title3, OLogN, [10, 100, 1000, 10000]);
 
+var title4 = "O(sqrt n) SQUARE ROOT — is n prime? (trial division)";
 // ============================================================
 // 4. O(sqrt n) SQUARE ROOT — IS N PRIME? (trial division)
 //
@@ -101,8 +105,9 @@ long OIsPrime(int n)
     }
     return work;                        // prime: checked everything up to sqrt n
 }
-Show("O(sqrt n) SQUARE ROOT — is n prime? (trial division)", OIsPrime, [7, 97, 997, 9973, 999983]);
+Show(title4, OIsPrime, [7, 97, 997, 9973, 999983]);
 
+var title5 = "O(n) LINEAR — classic foreach";
 // ============================================================
 // 5. O(n) LINEAR — classic foreach
 // ============================================================
@@ -113,8 +118,9 @@ long OLinear(int n)
         work++;
     return work;
 }
-Show("O(n) LINEAR — classic foreach", OLinear, [10, 100, 1000, 10000]);
+Show(title5, OLinear, [10, 100, 1000, 10000]);
 
+var title6 = "O(n log n) linearithmic — classic foreach + binary search";
 // ============================================================
 // 6. O(n log n) LINEARITHMIC — classic foreach + halving counter
 // ============================================================
@@ -126,8 +132,9 @@ long ONLogN(int n)
             work++;
     return work;
 }
-Show("O(n log n) linearithmic — classic foreach + binary search", ONLogN, [10, 100, 1000, 10000]);
+Show(title6, ONLogN, [10, 100, 1000, 10000]);
 
+var title7 = "O(n^2) QUADRATIC — every item with every item";
 // ============================================================
 // 7. O(n^2) QUADRATIC — every item with every item
 //
@@ -142,8 +149,9 @@ long OQuadratic(int n)
             work++;
     return work;
 }
-Show("O(n^2) QUADRATIC — every item with every item", OQuadratic, [10, 100, 1000, 5000]);
+Show(title7, OQuadratic, [10, 100, 1000, 5000]);
 
+var title8 = "O(n^2 log n) QUADRATIC LOGARITHMIC — every item with every item, plus a halving counter at each pair";
 // ============================================================
 // 8. O(n^2 log n) QUADRATIC LOGARITHMIC — the quadratic grid, plus a halving counter at each pair
 //
@@ -163,8 +171,9 @@ long ON2LogN(int n)
                 work++;
     return work;
 }
-Show("O(n^2 log n) QUADRATIC LOGARITHMIC — every item with every item, plus a halving counter at each pair", ON2LogN, [10, 100, 1000, 3000]);
+Show(title8, ON2LogN, [10, 100, 1000, 3000]);
 
+var title9 = "O(2^n) EXPONENTIAL — coin flipping";
 // ============================================================
 // 9. O(2^n) EXPONENTIAL — coin flipping
 //
@@ -182,8 +191,9 @@ long OExponential(int n)
     }
     return work;
 }
-Show("O(2^n) EXPONENTIAL — coin flipping", OExponential, [1, 2, 3, 5, 10]);
+Show(title9, OExponential, [1, 2, 3, 5, 10]);
 
+var title10 = "O(2^2^n) DOUBLE EXPONENTIAL — groups of coin combos";
 // ============================================================
 // 10. O(2^2^n) DOUBLE EXPONENTIAL — groups of coin combos
 //
@@ -211,8 +221,9 @@ long ODoubleExponential(int n)
         work++;
     return work;
 }
-Show("O(2^2^n) DOUBLE EXPONENTIAL — groups of coin combos", ODoubleExponential, [1, 2, 3, 4]);
+Show(title10, ODoubleExponential, [1, 2, 3, 4]);
 
+var title11 = "O(n!) FACTORIAL — every possible order of items";
 // ============================================================
 // 11. O(n!) FACTORIAL — every possible order of items
 //
@@ -239,7 +250,7 @@ long OFactorial(int n)
     Try(0);
     return work;
 }
-Show("O(n!) FACTORIAL — every possible order of items", OFactorial, [1, 2, 3, 5, 10]);
+Show(title11, OFactorial, [1, 2, 3, 5, 10]);
 
 void Show(string title, Func<int, long> bigO, int[] sizes)
 {
