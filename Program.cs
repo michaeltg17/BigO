@@ -26,7 +26,6 @@
 }
 
 Console.WriteLine("BIG O: how fast does the work grow when n gets bigger?");
-Console.WriteLine("(n = number of kids in a line, steps = work the computer does)");
 
 // ============================================================
 // 1. O(1) CONSTANT — get the mid number
