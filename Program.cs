@@ -1,35 +1,25 @@
-﻿// BIG O = a way to describe how fast the WORK grows when the input (n) gets bigger.
-//
-// Imagine n = kids standing in a line. "steps" = how many tiny things the computer does.
-// Every example below starts from the same simple for-loop, then wraps it in something
-// a bit bigger. Watch the steps column: that's the whole story.
-
-void Show(string title, Func<int, long> howManySteps, int[] sizes)
+﻿void Show(string title, Func<int, long> bigO, int[] sizes)
 {
     Console.WriteLine();
     Console.WriteLine(title);
     foreach (int n in sizes)
-        Console.WriteLine($"   n = {n,6}    steps = {howManySteps(n),10}");
+        Console.WriteLine($"n = {n} bigO = {bigO(n)}");
 }
 
 Console.WriteLine("BIG O: how fast does the work grow when n gets bigger?");
 Console.WriteLine("(n = number of kids in a line, steps = work the computer does)");
 
 // ============================================================
-// 1. O(1) CONSTANT — "open the middle locker"
-//
-// A list is a row of lockers numbered 0, 1, 2, 3, ...
-// If you want the middle locker, you just say "locker # n/2" and open it.
-// No counting, no loop. 10 kids? 1 step. 1 million kids? still 1 step.
-// (this is why the old code had arr[n / 2] — jump straight to one locker by number)
+// 1. O(1) CONSTANT — get the mid number
+// N: 10, 100, 1000, doesn't matter, same cost no growth, cost is 1
 // ============================================================
 long O1(int n)
 {
     var lockers = new int[n];
-    lockers[n / 2] = 1;   // open the middle locker: 1 step
+    lockers[n / 2] = 1;
     return 1;
 }
-Show("O(1) constant — open the middle locker", O1, new[] { 10, 100, 1000, 10000 });
+Show("O(1) CONSTANT — get the mid number", O1, [10, 100, 1000, 10000]);
 
 // ============================================================
 // 2. O(log n) LOGARITHMIC — BINARY SEARCH
@@ -57,7 +47,7 @@ Show("O(1) constant — open the middle locker", O1, new[] { 10, 100, 1000, 1000
 //
 // Example, n = 100, numberToSearch = 99 (range 0..100, sorted):
 //   check 50 -> too low  -> only 51..100 is alive
-//   check 75 -> too low  -> only 76..100 is alive   (NOT 25! it's dead)
+//   check 75 -> too low  -> only 76..100 is alive
 //   check 88 -> too low  -> only 89..100
 //   check 94 -> too low  -> only 95..100
 //   check 97 -> too low  -> only 98..100
@@ -79,7 +69,7 @@ long OLogN(int n)
     }
     return steps;
 }
-Show("O(log n) logarithmic — binary search (cut in half each time)", OLogN, new[] { 10, 100, 1000, 10000 });
+Show("O(log n) logarithmic — binary search (cut in half each time)", OLogN, [10, 100, 1000, 10000]);
 
 // ============================================================
 // 3. O(n) LINEAR — "count all the kids"
