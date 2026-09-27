@@ -123,26 +123,28 @@ long OQuadratic(int n)
 Show("O(n^2) QUADRATIC — every item with every item", OQuadratic, [10, 100, 1000, 5000]);
 
 // ============================================================
-// 7. O(2^n) EXPONENTIAL — "every possible photo"
+// 7. O(2^n) EXPONENTIAL — coin flipping
 //
-// Take a photo of EVERY group of kids. Each kid has 2 choices:
-// IN the photo or OUT. So the total is 2 x 2 x 2 ... (n times) = 2^n.
-// This is a function that calls itself twice per kid (recursion).
-// Doubles every single step — it explodes.
+// n is the quantity of coins
+// Each coin is a bit: 0 = heads, 1 = tails. The numbers from
+// 0 up to 2^n - 1 ARE the combos, one combo per number.
+// To read coin i out of a combo:  (mask >> i) & 1
+//   Example, n = 3, mask = 5 (binary 101):
+//     coin1: (5 >> 0) & 1 = 1  tails
+//     coin2: (5 >> 1) & 1 = 0  heads
+//     coin3: (5 >> 2) & 1 = 1  tails
+// We count every combo: 2^n of them.
 // ============================================================
 long OExponential(int n)
 {
     long work = 0;
-    void Try(int kid)
+    for (int mask = 0; mask < (1 << n); mask++)   // 0 .. 2^n-1 = every combo
     {
-        if (kid == n) { work++; return; }  // all kids decided = one photo taken
-        Try(kid + 1);   // kid is OUT of the photo
-        Try(kid + 1);   // kid is IN the photo
+        work++;
     }
-    Try(0);
     return work;
 }
-Show("O(2^n) exponential — every possible photo (2 choices per kid)", OExponential, [1, 5, 10, 15, 20]);
+Show("O(2^n) EXPONENTIAL — coin flipping", OExponential, [1, 2, 3, 10, 15, 20]);
 
 // ============================================================
 // 8. O(n!) FACTORIAL — "every possible lineup"
