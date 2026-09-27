@@ -2,8 +2,25 @@
 {
     Console.WriteLine();
     Console.WriteLine(title);
+    Console.WriteLine($"  {"n",8}  {"work",10}  {"n-growth",10}  {"work-growth",14}");
+    long? baseWork = null;
+    int baseN = 0;
     foreach (int n in sizes)
-        Console.WriteLine($"n = {n} bigO = {bigO(n)}");
+    {
+        long work = bigO(n);
+        if (baseWork is long b)
+        {
+            string nGrowth = "x" + ((double)n / baseN).ToString("0.##");
+            string workGrowth = "x" + ((double)work / b).ToString("0.##");
+            Console.WriteLine($"  {n,8}  {work,10}  {nGrowth,10}  {workGrowth,14}");
+        }
+        else
+        {
+            Console.WriteLine($"  {n,8}  {work,10}");
+            baseWork = work;
+            baseN = n;
+        }
+    }
 }
 
 Console.WriteLine("BIG O: how fast does the work grow when n gets bigger?");
@@ -11,6 +28,7 @@ Console.WriteLine("(n = number of kids in a line, steps = work the computer does
 
 // ============================================================
 // 1. O(1) CONSTANT — get the mid number
+//
 // N: 10, 100, 1000, doesn't matter, same cost no growth, cost is 1
 // ============================================================
 long O1(int n)
@@ -32,18 +50,8 @@ Show("O(1) CONSTANT — get the mid number", O1, [10, 100, 1000, 10000]);
 //   - if the middle is too HIGH -> the answer is in the BOTTOM half
 //     -> we throw away the entire top half.
 //
-// So we don't check every number (0, 1, 2, 3, ... would be the O(n) example below).
-// We always check the MIDDLE, which throws away half of all remaining numbers
-// every single step:
 // n numbers, then n/2, then n/4, then n/8, ... until one is left.
 // Cutting in half again and again = "log"
-//
-// In THIS code, numberToSearch is the ONE number we are looking for.
-// We pick numberToSearch = n - 1 (a high number) = the WORST case.
-// The worst case takes ~log n steps, so the WHOLE algorithm is O(log n)
-// — even a random numberToSearch can never do worse than this.
-// low and high are the "still alive" range, and mid is its middle.
-// The search STOPS the moment mid equals numberToSearch.
 //
 // Example, n = 100, numberToSearch = 99 (range 0..100, sorted):
 //   check 50 -> too low  -> only 51..100 is alive
@@ -51,59 +59,58 @@ Show("O(1) CONSTANT — get the mid number", O1, [10, 100, 1000, 10000]);
 //   check 88 -> too low  -> only 89..100
 //   check 94 -> too low  -> only 95..100
 //   check 97 -> too low  -> only 98..100
-//   check 99 -> FOUND! stop. 6 checks instead of up to 99.
+//   check 99 -> FOUND! stop. 6 work instead of up to 99.
 // ============================================================
 long OLogN(int n)
 {
     int numberToSearch = n - 1;   // the number we are looking for (a high number = worst case)
     int low = 0;
     int high = n;
-    long steps = 0;
+    long work = 0;
     while (low < high)
     {
-        steps++;                                    // one check
+        work++;                                    // one check
         int mid = low + (high - low) / 2;           // always check the middle
-        if (mid == numberToSearch) return steps;    // FOUND IT! the search ends here
+        if (mid == numberToSearch) return work;    // FOUND IT! the search ends here
         if (mid < numberToSearch) low = mid + 1;    // too low -> keep top half
         else high = mid;                            // too high -> keep bottom half
     }
-    return steps;
+    return work;
 }
-Show("O(log n) logarithmic — binary search (cut in half each time)", OLogN, [10, 100, 1000, 10000]);
+Show("O(log n) LOGARITHMIC — BINARY SEARCH", OLogN, [10, 100, 1000, 10000]);
 
 // ============================================================
-// 3. O(n) LINEAR — "count all the kids"
+// 3. O(n) LINEAR — classic foreach
 //
-// The base example: one simple for-loop. Visit every kid once.
-// 10 kids = 10 steps. 1000 kids = 1000 steps. Work grows straight up with n.
+// 
 // ============================================================
 long OLinear(int n)
 {
-    long steps = 0;
-    for (int i = 0; i < n; i++)  // visit every kid once
-        steps++;
-    return steps;
+    long work = 0;
+    for (int i = 0; i < n; i++)
+        work++;
+    return work;
 }
-Show("O(n) linear — one simple for-loop, count every kid", OLinear, new[] { 10, 100, 1000, 10000 });
+Show("O(n) LINEAR — classic foreach", OLinear, [10, 100, 1000, 10000]);
 
 // ============================================================
-// 4. O(n log n) LINEARITHMIC — "every kid plays the guessing game"
+// 4. O(n log n) LINEARITHMIC — classic foreach + binary search
 //
-// The simple for-loop (n kids) — and INSIDE it, the cut-in-half game (log n steps).
+// The normal loop + inside binary search
 // So the work is n x log n. This is how fast the best sorting algorithms go.
 // ============================================================
 long ONLogN(int n)
 {
-    long steps = 0;
-    for (int i = 0; i < n; i++)          // for every kid...
-        for (int j = n; j > 1; j /= 2)   // ...play the cut-in-half game (log n steps)
-            steps++;
-    return steps;
+    long work = 0;
+    for (int i = 0; i < n; i++)          
+        for (int j = n; j > 1; j /= 2)
+            work++;
+    return work;
 }
-Show("O(n log n) linearithmic — for-loop with the halving game inside", ONLogN, new[] { 10, 100, 1000, 10000 });
+Show("O(n log n) linearithmic — classic foreach + binary search", ONLogN, [10, 100, 1000, 10000]);
 
 // ============================================================
-// 5. O(n^2) QUADRATIC — "every kid shakes hands with every kid"
+// 5. O(n^2) QUADRATIC — every item with every item
 //
 // The simple for-loop, with ANOTHER simple for-loop inside it.
 // Kid 1 shakes hands with n kids, kid 2 with n kids, ... n times n = n^2.
@@ -116,7 +123,7 @@ long OQuadratic(int n)
             steps++;
     return steps;
 }
-Show("O(n^2) quadratic — for-loop inside for-loop (handshakes)", OQuadratic, new[] { 10, 100, 1000, 5000 });
+Show("O(n^2) QUADRATIC — every item with every item", OQuadratic, [10, 100, 1000, 5000]);
 
 // ============================================================
 // 6. O(n^3) CUBIC — "every handshake gets n high-fives"
