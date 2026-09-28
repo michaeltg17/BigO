@@ -1,10 +1,11 @@
 ﻿Console.WriteLine("BIG O: how fast does the work grow when n gets bigger?");
+Console.WriteLine("Ordered from lower growth to higher");
 
 var title1 = "O(1) CONSTANT — get the mid number";
 // ============================================================
 // 1. O(1) CONSTANT — get the mid number
 //
-// N: 10, 100, 1000, doesn't matter, same cost no growth, cost is 1
+// N: 10, 100, 1000, doesn't matter, same work, same growth, constant
 // ============================================================
 long O1(int n)
 {
@@ -193,9 +194,38 @@ long OExponential(int n)
 }
 Show(title9, OExponential, [1, 2, 3, 5, 10]);
 
-var title10 = "O(2^2^n) DOUBLE EXPONENTIAL — groups of coin combos";
+var title10 = "O(n!) FACTORIAL — every possible order of items";
 // ============================================================
-// 10. O(2^2^n) DOUBLE EXPONENTIAL — groups of coin combos
+// 10. O(n!) FACTORIAL — every possible order of items
+//
+// In how many orders can n items be placed?
+// 1st spot: n options. 2nd spot: n-1 options left. 3rd: n-2 ...
+// Total = n * (n-1) * (n-2) * ... * 1  which is written "n!" (n factorial).
+// Even a tiny n is way, way bigger than 2^n. This is why we never do this for big n.
+// ============================================================
+long OFactorial(int n)
+{
+    long work = 0;
+    var used = new bool[n];
+    void Try(int spot)
+    {
+        if (spot == n) { work++; return; } // no spots, one order found
+        for (int i = 0; i < n; i++)
+            if (!used[i]) // item i not placed yet
+            {
+                used[i] = true;
+                Try(spot + 1);
+                used[i] = false;
+            }
+    }
+    Try(0);
+    return work;
+}
+Show(title10, OFactorial, [1, 2, 3, 5, 10]);
+
+var title11 = "O(2^2^n) DOUBLE EXPONENTIAL — groups of coin combos";
+// ============================================================
+// 11. O(2^2^n) DOUBLE EXPONENTIAL — groups of coin combos
 //
 // 2^n was: every combo of n coins. Now go one level up and count
 // every possible GROUP of those combos: each combo gets a yes/no
@@ -221,36 +251,7 @@ long ODoubleExponential(int n)
         work++;
     return work;
 }
-Show(title10, ODoubleExponential, [1, 2, 3, 4]);
-
-var title11 = "O(n!) FACTORIAL — every possible order of items";
-// ============================================================
-// 11. O(n!) FACTORIAL — every possible order of items
-//
-// In how many orders can n items be placed?
-// 1st spot: n options. 2nd spot: n-1 options left. 3rd: n-2 ...
-// Total = n * (n-1) * (n-2) * ... * 1  which is written "n!" (n factorial).
-// Even a tiny n is way, way bigger than 2^n. This is why we never do this for big n.
-// ============================================================
-long OFactorial(int n)
-{
-    long work = 0;
-    var used = new bool[n];
-    void Try(int spot)
-    {
-        if (spot == n) { work++; return; } // no spots, one order found
-        for (int i = 0; i < n; i++)
-            if (!used[i]) // item i not placed yet
-            {
-                used[i] = true;
-                Try(spot + 1);
-                used[i] = false;
-            }
-    }
-    Try(0);
-    return work;
-}
-Show(title11, OFactorial, [1, 2, 3, 5, 10]);
+Show(title11, ODoubleExponential, [1, 2, 3, 4]);
 
 void Show(string title, Func<int, long> bigO, int[] sizes)
 {
