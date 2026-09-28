@@ -32,7 +32,6 @@ i           n       i (work)
 25          100     +25          
 12          100     +12 
 
-
 // O(n log n) - outer shrinks inner flat = log n (shrinks) * n (flat)
 long Work(int n)
 {
@@ -47,4 +46,47 @@ k           n       (work)
 1           100     +100          
 2           100     +100          
 4           100     +100        
-8           100     +100 
+8           100     +100
+
+// O(n log n) - outer flat + inner shrinks
+long Work(int n)
+{
+    long work = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = i; j <= n; j += i)
+            work++;
+    }
+    return work;
+}
+
+i           n       j       (work)
+1           100     1       +1
+                    2       +1
+                            total +100 
+2           100     2       +1
+            100     4       +1
+                            total +50         
+3           100     3       +33        
+4           100     4       +25
+
+//O(n log n) - outer flat mid shrink
+long Work(int n)
+{
+    long work = 0;
+    for (int i = 1; i <= n; i++)
+        for (int j = i; j <= n; j += i)
+            if (n % j == 0)
+                work++;
+    return work;
+}
+
+i           n       j       (work)
+1           100     1       +1
+                    2       +1
+                            total +100 
+2           100     2       +1
+            100     4       +1
+                            total +50         
+3           100     3       +33        
+4           100     4       +25
