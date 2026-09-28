@@ -90,3 +90,70 @@ i           n       j       (work)
                             total +50         
 3           100     3       +33        
 4           100     4       +25
+
+// O(log n) - shrinks
+long Work(int n)
+{
+    long work = 0;
+    int x = n;
+    while (x > 0)
+    {
+        x &= (x - 1);
+        work++;
+    }
+    return work;
+}
+
+x           n       (work)
+100         100     1
+96          100     2
+64          100
+
+// O(n log log n) - outer linear + inner shrinks and shrinks again because of the composite array (each time there are more items as true)
+long Work(int n)
+{
+    var isComposite = new bool[n + 1];
+    long work = 0;
+    for (int i = 2; i <= n; i++)
+    {
+        if (!isComposite[i])               // i is prime
+            for (int j = i * i; j <= n; j += i)
+            {
+                isComposite[j] = true;
+                work++;
+            }
+    }
+    return work;
+}
+
+i           n       j        (work)
+2           100     4       1
+                    6       1
+3           100             2
+4           100
+
+// O(n) - outer linear
+long Work(int n)
+{
+    long work = 0;
+    int cap = 1;
+    for (int i = 0; i < n; i++)
+    {
+        if (i == cap)            // full -> grow
+        {
+            work += cap;         // copying cap elements costs cap
+            cap *= 2;
+        }
+        work++;                  // the append itself
+    }
+    return work;
+}
+
+i           n       cap       work
+0           100     1         1
+1           100     1         3 
+2           100     2         6
+3           100     4         7
+4           100     4         12
+5           100     8         13
+7           100     8         14

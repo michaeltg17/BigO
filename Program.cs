@@ -94,7 +94,7 @@ var title4 = "O((log n)^2) SUB-POLYNOMIAL — the work inside the if (Q3)";
 //     for j = i, 2i, 3i, ... <= n
 //       if (n % j == 0) work++
 //
-// The loop STRUCTURE spins n log n times (same as entry 7), and
+// The loop STRUCTURE spins n log n times (same as entry 8), and
 // the if is checked on every spin. So the CHECKS grow like
 // n log n — that part is NOT small.
 //
@@ -167,9 +167,48 @@ long OLinear(int n)
 Show(title6, OLinear, [10, 100, 1000, 10000]);
 
 
-var title7 = "O(n log n) linearithmic — classic foreach + binary search";
+var title7 = "O(n log log n) SIEVE OF ERATOSTHENES — find all primes up to n";
 // ============================================================
-// 7. O(n log n) LINEARITHMIC — classic foreach + halving counter
+// 7. O(n log log n) SIEVE OF ERATOSTHENES — find all primes up to n
+//
+// Walk i from 2 to n. If i is still unmarked, it is prime: mark
+// all its multiples i*i, i*i+i, ... up to n as composite.
+//
+// For a prime i, the inner loop runs ~n/i times. So the total
+// work is n * (1/2 + 1/3 + 1/5 + 1/7 + ...) — the harmonic sum,
+// but over PRIMES only.
+//
+// Over all integers that sum is log n (the harmonic series).
+// Over primes only it is thinner: primes get sparser — near x,
+// about 1 of every ln x numbers is prime — so the thinner sum
+// grows like log log n instead.
+//
+// Total work = n * log log n. "Almost linear": it beats
+// O(n log n) (entry 8), and n going 100x bigger makes work go
+// only ~110x bigger. The gap is real but slow to show: at
+// n = 10^18, log n is ~60 but log log n is ~4.
+// ============================================================
+long OSieve(int n)
+{
+    var isComposite = new bool[n + 1];
+    long work = 0;
+    for (int i = 2; i <= n; i++)
+    {
+        if (!isComposite[i])               // i is prime
+            for (long j = (long)i * i; j <= n; j += i)
+            {
+                isComposite[j] = true;
+                work++;
+            }
+    }
+    return work;
+}
+Show(title7, OSieve, [10, 100, 1000, 10000, 1000000, 10000000]);
+
+
+var title8 = "O(n log n) linearithmic — classic foreach + binary search";
+// ============================================================
+// 8. O(n log n) LINEARITHMIC — classic foreach + halving counter
 // ============================================================
 long ONLogN(int n)
 {
@@ -179,12 +218,12 @@ long ONLogN(int n)
             work++;
     return work;
 }
-Show(title7, ONLogN, [10, 100, 1000, 10000]);
+Show(title8, ONLogN, [10, 100, 1000, 10000]);
 
 
-var title8 = "O(n^2) QUADRATIC — every item with every item";
+var title9 = "O(n^2) QUADRATIC — every item with every item";
 // ============================================================
-// 8. O(n^2) QUADRATIC — every item with every item
+// 9. O(n^2) QUADRATIC — every item with every item
 //
 // n^2 is a polynomial (degree 2). n^3 would be CUBIC, n^4 QUARTIC —
 // all the same family (polynomial), just different degrees.
@@ -197,12 +236,12 @@ long OQuadratic(int n)
             work++;
     return work;
 }
-Show(title8, OQuadratic, [10, 100, 1000, 5000]);
+Show(title9, OQuadratic, [10, 100, 1000, 5000]);
 
 
-var title9 = "O(n^2 log n) QUADRATIC LOGARITHMIC — every item with every item, plus a halving counter at each pair";
+var title10 = "O(n^2 log n) QUADRATIC LOGARITHMIC — every item with every item, plus a halving counter at each pair";
 // ============================================================
-// 9. O(n^2 log n) QUADRATIC LOGARITHMIC — the quadratic grid, plus a halving counter at each pair
+// 10. O(n^2 log n) QUADRATIC LOGARITHMIC — the quadratic grid, plus a halving counter at each pair
 //
 // Every item with every item (that's n^2), and at every pair we
 // run the halving counter (that's log n). The log factor means it
@@ -220,12 +259,12 @@ long ON2LogN(int n)
                 work++;
     return work;
 }
-Show(title9, ON2LogN, [10, 100, 1000, 3000]);
+Show(title10, ON2LogN, [10, 100, 1000, 3000]);
 
 
-var title10 = "O(2^n) EXPONENTIAL — coin flipping";
+var title11 = "O(2^n) EXPONENTIAL — coin flipping";
 // ============================================================
-// 10. O(2^n) EXPONENTIAL — coin flipping
+// 11. O(2^n) EXPONENTIAL — coin flipping
 //
 // n is the quantity of coins
 // Each coin is a bit: 0 = heads, 1 = tails. The numbers from
@@ -241,12 +280,12 @@ long OExponential(int n)
     }
     return work;
 }
-Show(title10, OExponential, [1, 2, 3, 5, 10]);
+Show(title11, OExponential, [1, 2, 3, 5, 10]);
 
 
-var title11 = "O(n!) FACTORIAL — every possible order of items";
+var title12 = "O(n!) FACTORIAL — every possible order of items";
 // ============================================================
-// 11. O(n!) FACTORIAL — every possible order of items
+// 12. O(n!) FACTORIAL — every possible order of items
 //
 // In how many orders can n items be placed?
 // 1st spot: n options. 2nd spot: n-1 options left. 3rd: n-2 ...
@@ -271,12 +310,12 @@ long OFactorial(int n)
     Try(0);
     return work;
 }
-Show(title11, OFactorial, [1, 2, 3, 5, 10]);
+Show(title12, OFactorial, [1, 2, 3, 5, 10]);
 
 
-var title12 = "O(2^2^n) DOUBLE EXPONENTIAL — groups of coin combos";
+var title13 = "O(2^2^n) DOUBLE EXPONENTIAL — groups of coin combos";
 // ============================================================
-// 12. O(2^2^n) DOUBLE EXPONENTIAL — groups of coin combos
+// 13. O(2^2^n) DOUBLE EXPONENTIAL — groups of coin combos
 //
 // 2^n was: every combo of n coins. Now go one level up and count
 // every possible GROUP of those combos: each combo gets a yes/no
@@ -302,7 +341,7 @@ long ODoubleExponential(int n)
         work++;
     return work;
 }
-Show(title12, ODoubleExponential, [1, 2, 3, 4]);
+Show(title13, ODoubleExponential, [1, 2, 3, 4]);
 
 
 void Show(string title, Func<int, long> bigO, int[] sizes)
