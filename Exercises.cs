@@ -132,7 +132,7 @@ i           n       j        (work)
 3           100             2
 4           100
 
-// O(n) - outer linear
+// O(n) - outer linear + inside linear
 long Work(int n)
 {
     long work = 0;
@@ -157,3 +157,35 @@ i           n       cap       work
 4           100     4         12
 5           100     8         13
 7           100     8         14
+8           100     8         23
+9           100     16        24
+
+//O(n log n) - outer linear inner shrinks
+Q7 (to close the round):
+long Work(int n)
+{
+    long work = 0;
+    for (int i = 1; i <= n; i++) //O(n)
+        for (int j = 1; j <= n; j += i) //O(log n)
+            work++;
+    return work;
+}
+
+i           n       j       work
+1           100     1       1
+            100     2       2
+            100     3       3
+2           100     1       
+            100     3
+
+//O(2!)
+function mystery(n) {
+  if (n <= 1) return 1;
+  return mystery(n - 1) + mystery(n - 2);
+}
+
+n       caller1     caller2     calls1      calls2      total
+2       1          0            0           0           2
+3       2          1            2           0           1
+4       3          2            
+        2          1
